@@ -1,0 +1,48 @@
+import lldb
+import time
+
+def	automate(debugger, command, result, internal_dict):
+	debugger.SetAsync(True)
+	av = command.split()
+	if len(av) == 3:
+		debugger.HandleCommand("br s -n main")
+		debugger.HandleCommand("process launch")
+		time.sleep(1)
+		debugger.HandleCommand("w s v count")
+		debugger.HandleCommand("c")
+		time.sleep(1)
+		debugger.HandleCommand("c")
+		time.sleep(1)
+		debugger.GetSelectedTarget().GetProcess().PutSTDIN(str(av[0] + "\n"))
+		time.sleep(1)
+		debugger.HandleCommand("e tab[0] = tab[1]")
+		debugger.HandleCommand("c")
+		time.sleep(1)
+		debugger.GetSelectedTarget().GetProcess().PutSTDIN(str(av[1] + "\n"))
+		time.sleep(1)
+		debugger.HandleCommand("e int $tmp = tab[1]")
+		debugger.HandleCommand("c")
+		time.sleep(1)
+		debugger.GetSelectedTarget().GetProcess().PutSTDIN(str(av[2] + "\n"))
+		time.sleep(1)
+		debugger.HandleCommand("e tab[2] = tab[1]; tab[1] = $tmp")
+		debugger.HandleCommand("c")
+		time.sleep(1)
+		debugger.HandleCommand("e count--")
+		debugger.HandleCommand("w del 1")
+		time.sleep(1)
+		debugger.HandleCommand("br s -p 'tmp /= max'")
+		debugger.HandleCommand("c")
+		time.sleep(1)
+		debugger.HandleCommand("e for(int i = 0; i < max; i++) tmp += min[i]")
+		debugger.HandleCommand("br s -p 'return biggest'")
+		debugger.HandleCommand("c")
+		time.sleep(1)
+		debugger.HandleCommand("e for(int i = 0; i < max; i++) if(biggest < min[i]) biggest = min[i]")
+		debugger.HandleCommand("c")
+		time.sleep(2)
+	else:
+		print('usage: fix_source_cpp nbr1 nbr2 nbr3')
+
+def	__lldb_init_module(debugger, internal_dict):
+	debugger.HandleCommand('command script add -f automate_source.automate automate_source -h " automate source.cpp in 01-usage"')
