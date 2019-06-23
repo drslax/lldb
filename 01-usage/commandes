@@ -12,7 +12,7 @@ w del 1
 br s -p "tmp /= max"
 c
 e for(int i = 0; i < max; i++) tmp += min[i]
-br s -p "return biggest" -o
+br s -p "return biggest"
 c
 e for(int i = 0; i < max; i++) if(biggest < min[i]) biggest = min[i]
 c

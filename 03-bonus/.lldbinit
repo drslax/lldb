@@ -1,0 +1,19 @@
+settings set target.x86-disassembly-flavor intel
+settings set prompt "(aelouarg) "
+script print "\x1b[0;33m"
+script print "            _                             "
+script print "           | |                            "
+script print "  __ _  ___| | ___  _   _  __ _ _ __ __ _ "
+script print " / _\` |/ _ \ |/ _ \| | | |/ _\` | \'__/ _\` |"
+script print "| (_| |  __/ | (_) | |_| | (_| | | | (_| |"
+script print " \__,_|\___|_|\___/ \__,_|\__,_|_|  \__, |"
+script print "                                     __/ |"
+script print "                                    |___/ "
+script print "\x1b[0;0m"
+script print "\x1b[0;32m"
+command script import automate_source.py
+command script import ls.py
+command script import cd.py
+command script import echo.py
+command script import ft_pwd.py
+command script import main_run.py
